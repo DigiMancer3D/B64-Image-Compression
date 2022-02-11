@@ -1,0 +1,46 @@
+<p align="center"><table align="center"><tr align="center"></tr><td><tr><textarea id="inp" style="width:48%" rows="10" placeholder="I make B64 Media Smaller" align="center"></textarea></tr><tr><td><input type="button" value="Compress" onClick="compress();" />&nbsp;&nbsp;</td><td>
+ <input type="button" value="Reduce" onClick="reduce();" /></td></tr></td><td><tr>
+<textarea id="out" style="width:48%" align="center" placeholder="I make B64 Media Bigger" rows="10"></textarea></tr><tr><td><input type="button" value="Decompress" onClick="decompress();" /></td><td><input type="button" value="Return" onClick="retur();" /></td></tr></td></table></p>
+<script>
+function compress(){
+ var imgCur = document.getElementById('inp').value;
+let compressedImg = imgCur.split('').reduce((o, c) => {
+  if (o[o.length - 2] === c && o[o.length - 1] < 35) o[o.length - 1]++;
+  else o.push(c, 0);
+  return o;
+},[]).map(_ => typeof _ === 'number' ? _.toString(36) : _).join('');
+ 
+ document.getElementById('out').value = compressedImg;
+ 
+ document.getElementById('inp').value = '';
+}
+
+function decompress(){ 
+ var compressedImgCur = document.getElementById('out').value;
+ let decompressedImgCur = compressedImgCur.split('').map((c,i,a)=>i%2?undefined:new Array(2+parseInt(a[i+1],36)).join(c)).join('');
+ document.getElementById('inp').value = decompressedImgCur;
+ 
+
+ document.getElementById('out').value = '';
+}
+
+function reduce(){
+ let ducers = document.getElementById('inp').value
+ .split('').reduce((o, c) => {
+  if (o[o.length - 2] === c && o.length < 35) o[o.length - 1]++;
+  else o.push(c, 0);
+  return o;
+},[]).map(_ => typeof _ === 'number' ? _.toString(36) : _).join('').replace('00', '#2').replace('000', '#3').replace('00', '#2').replace('000', '#3').replace('0000', '#4');
+ 
+ 
+ document.getElementById('out').value = ducers;
+ document.getElementById('inp').value = '';
+}
+
+function retur(){;
+ let decompressedImgCur = document.getElementById('out').value.replace('#2', '00').replace('#3', '000').replace('#2', '00').replace('#3', '000').replace('#4', '0000')
+  .split('').map((c,i,a)=>i%2?undefined:new Array(2+parseInt(a[i+1],36)).join(c)).join('');
+ document.getElementById('inp').value = decompressedImgCur;
+ document.getElementById('out').value = '';
+}
+</script>
