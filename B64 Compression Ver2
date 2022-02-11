@@ -1,0 +1,48 @@
+<p align="center"><table align="center"><tr align="center"></tr><td><tr><textarea id="inp" style="width:48%" rows="10" placeholder="I make B64 Media Smaller" align="center"></textarea></tr><tr><td>&nbsp; <input type="button" value="Compress" onClick="compress();" /></td></tr></td><td><tr>
+<textarea id="out" style="width:48%" align="center" placeholder="I make B64 Media Bigger" rows="10"></textarea></tr><tr><td><input type="button" value="Decompress" onClick="decompress();" /></td>&nbsp;</tr></td></table></p>
+<script>
+function compress() {
+ var str = document.getElementById('inp').value;
+ function findRepeat(str) {
+  const arr = str.split('');
+  const hash = new Map();
+  const result = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (hash.get(arr[i]) === undefined) {
+      hash.set(arr[i], true);
+    } else {
+      const value = hash.get(arr[i]);
+      if (value) {
+        hash.set(arr[i], !value);
+      }
+    }
+  }
+  hash.forEach((v, k) => {
+    if (!v)
+      result.push(k);
+  });
+  return result;
+}
+ 
+ document.getElementById('out').value = findRepeat(str).join('');
+ 
+ document.getElementById('inp').value = '';
+}
+
+
+function decompress(){ 
+ let decompressedImgCur = document.getElementById('out').value
+ .split('').map((c,i,a)=>i%2?undefined:new Array(2+parseInt(a[i+1],36)).join(c)).join('');
+ document.getElementById('inp').value = decompressedImgCur;
+ 
+
+ document.getElementById('out').value = '';
+}
+
+function reduce(){
+
+}
+
+function retur(){;
+}
+</script>
